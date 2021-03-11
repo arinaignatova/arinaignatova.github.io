@@ -101,22 +101,55 @@
 
           <h3>CdS PHOTOSENSORS</h3>
           <div class="row">
-          <p>Text</p>
+          <p>For the robot to be able to able to “see” the light in future labs, it must be able to use the light incident upon the photoresitors and assess its actions. 
+            From the CsD spec sheet we can see that as the amount of light increases, the resistance of the two devices decreases. In dark spaces, the resistance is 
+            approximately 70-80 kOhms, while in bright environments it decreases down to 8-10 kOhms. </p>
+
+            <p>The variable resistance of the photoresitors is required for the robot to determine what to do next, however, the information about the amount of light exposure 
+              must be translated into an electrical signal for the Arduino to be able to process it. 
+            In order to do this, I built a simple voltage divider circuit with a photoresistor, a 10kOhm pull-down resistor, and Vout which would be connected to an analog input pin on the Arduino. 
+            Given a 10kOhm pull-down resistor, Vout would be approximately 0.6 V under little illumination and 2.7 V under a lot of illumination. 
+            The completed circuit can be seen in the photo below. </p>
+
+            <p>
+              <img src="assets/img/L1_edit.jpg" class="img-fluid" alt="" width="755" height="693" style="border: 10px dashed #fff56e; border-radius: 40px;"/>
+            </p>
+            
+            <p>Vout of the circuit is connected to A0, and this input voltage to the Arduino can now be converted to a value somewhere between 0 and 1023, 
+            reflecting the brightness of the light falling upon the photoresistors relative to Vref (which using the code provided in CdS_ReadA0.ino was determined to be 5V).
+            Knowing Vref and the approximate input voltages under bright and dark conditions, the results of analogRead can now be estimated. 
+            In a dark environment, the result of analogRead should be around 120, and in a bright environment it should be around 550.
+            Actually performing the experiment, under “normal“ conditions the output of A0 from the Serial Monitor is around 200. 
+            Under “bright” conditions (CdS photoresistor illuminated by a flashlight), the reading is about 885-915. Since the robot will have two eyes, 
+            two photoresistor circuits must be built - one for the right side and the other for the left side. One sensor’s circuit output is connected to A0, 
+            and the other sensor’s output is sent to A1. The completed photoresistor circuit can be seen below. </p>
+             
+            <p>
+              <img src="assets/img/L2_edit.jpg" class="img-fluid" alt="" width="687" height="687" style="border: 10px dashed #fff56e; border-radius: 40px;"/>
+            </p>
 
           <h3>CODING TO CONTROL THE ROBOT</h3>
           <div class="row">
-          <p>Text</p>
+          <p>In order for the robot to move as desired later, it must be able to determine when a bright light hits one of its eyes. A good way to do so is to calculate a 
+            normalized measurement NM for each eye — a value between 0 and 1 which tells the Arduino whether or not one eye is being exposed to  significantly more light 
+            than the other. For example, NMleft = 0.25 would mean that the right sensor is getting a higher light reading than the left sensor, and NMleft = 0.75 would mean 
+            that the left sensor is getting a higher reading than the right sensor. NMleft close to 0.5 would mean that both sensors are getting roughly equal readings. </p>
+
+
+          <p>To be able to read both A0 and A1, I created a new file CdS_ReadA0A1.ino which follows the format of CdS_ReadA0.ino, except that now both pins must be set up 
+            and read simultaneously. In the same file, float variables NMleft and NMright are calculated. To make sure that the normalized measurements are being calculated 
+            correctly, code that displays the values of NMleft and NMright on the Serial Monitor every 1000ms was also written. As I moved the flashlight from one side of 
+            the robot to the other, NMleft and NMright changed accordingly — reflecting the lighting conditions for each photoresistor. </p>
+
+          <h3>FINAL THOUGHTS</h3>
+          <p>Overall, Lab 1 went smoothly with only a few challenges along the way. While writing the code for calculating NMleft and NMright, I ran into the issue of the 
+            Serial Monitor outputting 0 for both readings. However, I realized that I was incorrectly casting integers to float variables and later was able to resolve the issue. </p>
 
         </div>
+       
       </div>
 
-      
-
     </div><!-- End Lab 1 -->
-
-    <!--<div class="col-lg-4" data-aos="fade-right">
-          <img src="assets/img/me.jpg" class="img-fluid" alt="">
-        </div>-->
 
   </section><!-- End Lab 1 Section -->
 

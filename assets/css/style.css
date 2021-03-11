@@ -324,7 +324,7 @@ section.section-show {
 }
 
 section .container {
-  background: rgba(8, 8, 8, 0.9);
+  background: rgba(8, 8, 8, 0.8);
   padding: 30px;
 }
 
@@ -386,6 +386,7 @@ section .container {
   margin-bottom: 20px;
   display: flex;
   align-items: center;
+  width: 700px;
 }
 
 .about-me .content ul strong {
