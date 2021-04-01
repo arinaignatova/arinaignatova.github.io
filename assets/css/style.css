@@ -1,7 +1,8 @@
 body {
   font-family: "Open Sans", sans-serif;
+  letter-spacing: 1.5px;
   background-color: #222222;
-  color: rgb(211, 211, 211);
+  color: rgb(255, 255, 255, 0.8);
   position: relative;
   background: transparent;
 }

@@ -112,7 +112,7 @@
             The completed circuit can be seen in the photo below. </p>
 
             <p>
-              <img src="assets/img/L1_edit.jpg" class="img-fluid" alt="" width="600" height="551" style="border-radius: 20px;"/>
+              <img src="assets/img/L1_edit.jpg" class="img-fluid" alt="" width="600" height="551" style="border-radius: 20px; padding-top: 15px; padding-bottom: 15px;"/>
             </p>
             
             <p>Vout of the circuit is connected to A0, and this input voltage to the Arduino can now be converted to a value somewhere between 0 and 1023, 
@@ -125,7 +125,7 @@
             and the other sensor’s output is sent to A1. The completed photoresistor circuit can be seen below. </p>
              
             <p>
-              <img src="assets/img/L2_edit.jpg" class="img-fluid" alt="" width="600" height="600" style="border-radius: 20px;"/>
+              <img src="assets/img/L2_edit.jpg" class="img-fluid" alt="" width="600" height="600" style="border-radius: 20px; padding-top: 15px; padding-bottom: 15px;"/>
             </p>
 
           <h3>CODING TO CONTROL THE ROBOT</h3>
@@ -164,10 +164,87 @@
     </div>
 
     <div class="row">
-      <video width="1539" height="1080" autoplay="autoplay" controls>
-        <source src="assets/img/E.mov" type="video/mov">
-      </video>
-    </div>
+      <div class="col-lg-8 pt-4 pt-lg-0 content" data-aos="fade-left">
+        <h3>OBJECTIVES</h3>
+        <div class="row">
+          <div class="col-lg-6">
+            <ul>
+              <li><i class="bi bi-chevron-right"></i> <p>Integrate the CdS photoresistors with the motors and the h‐bridge to actuate the robot and turn it into a light‐following robot</p></li>
+              <li><i class="bi bi-chevron-right"></i> <p>When the robot is under normal lighting conditions, it will turn around in place not knowing where to go</p></li>
+              <li><i class="bi bi-chevron-right"></i> <p>When bright light hits the robot from one side or the other, the onboard LED will stop blinking, and the robot will move towards the bright light until the light is turned off again or the robot has turned sufficiently so that it faces the light, at which point the robot will move towards it in a straight line</p></li>
+            </ul>
+          </div>
+        </div>
+        <h3>MATERIALS</h3>
+        <div class="row">
+          <div class="col-lg-6">
+            <ul>
+              <li><i class="bi bi-chevron-right"></i> <p>2 x CdS photoresistors</p></li>
+              <li><i class="bi bi-chevron-right"></i> <p>2 x 10kOhm resistors</p></li>
+              <li><i class="bi bi-chevron-right"></i> <p>L293D chip</p></li>
+              <li><i class="bi bi-chevron-right"></i> <p>Arduino Nano Every</p></li>
+              <li><i class="bi bi-chevron-right"></i> <p>Jumper wires</p></li>
+              <li><i class="bi bi-chevron-right"></i> <p>AA and 9V batteries</p></li>
+              <li><i class="bi bi-chevron-right"></i> <p>6 x 1 kOhm resistors</p></li>
+              <li><i class="bi bi-chevron-right"></i> <p>2 x 1 uF capacitors</p></li>
+              <li><i class="bi bi-chevron-right"></i> <p>Breadboard</p></li>
+              <li><i class="bi bi-chevron-right"></i> <p>Flashlight</p></li>
+              <li><i class="bi bi-chevron-right"></i> <p>Robot frame</p></li>
+              <li><i class="bi bi-chevron-right"></i> <p>Floor space of average brightness</p></li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>UNDERSTANDING THE ADC</h3>
+          <div class="row">
+          <p>The analog-to-digital conversion process within the Arduino is timed with a CLK_ADC signal which is generated from the 
+            CPU clock (CLK_PER). To generate the CLK_ADC signal, the microcontroller uses CLK_PER and divides it down by a factor called 
+            the prescaler which is specified by the CTRLC register of ADC0. The value of the prescaler can be specified manually, however 
+            it also has a default value. To determine the default value of the prescaler, I wrote a simple sketch that read the appropriate
+            values of CTRLC register. The serial monitor output 2:0 = 110 which corresponded to 0X6 meaning that the default value of the 
+            rescaler for CLK_PER is 128.</p>
+
+          <P>I then modified the code to also read the appropriate bits of the MCLKCTRLB register of CLKCTRL to determine the prescaler used by 
+            the Nano that fixes the value of CLK_PER. The serial monitor output 4:1 = 0000 which corresponds to a division value of 2, however, 
+            since the PEN bit was set to 0 CLK_MAIN wasn't actually being scaled.</P>
+
+          <p>Knowing the prescaler values for both CLK_ADC and CLK_PER we can now calculate the frequency and period of CLK_ADC. Additionally, 
+            given that the ADC requires an input clock frequency between 50 kHz and 1.5 MHz for maximum resolution, we can calculate the 
+            minimum allowable ADC prescaler that must be used for the CLK_PER signal corresponding to the 16 MHz signal of the
+            oscillator to be 16. This is equilvalent to CLK_ADC frequency of 1MHz.</p>
+
+          <p>You will now test various ADC prescaler values to give you an idea of how fast the ADC can be operated in reality. With your Arduino 
+            powered off, connect the +3.3V pin (pin # 2) to the A3 pin (that’s the PD0 processor pin, also labeled D17, on the Nano Pinout diagram). 
+            Next, instead of using the analogRead() Arduino pre‐programmed function, download the file 2 ADC_SingleConvClass.ino from Canvas (in the 
+            Lab 2 Module) and open it in the IDE. Note in passing that this file contains the (slightly modified) code from Example 9‐1 in the 
+            “Getting Started with ADC” document on Canvas. Read through the code, understand what the code is doing, and if you compare it to 
+            section 29.3.1 in the Datasheet, that is what it is doing. Next, upload the code to your Nano. It will output the analog‐to‐digitally 
+            converted value of the +3.3V pin connected to PD0 on the Serial Monitor using a value of 16 for the ADC prescaler. Is the ADC result as expected?</p>
+
+          <p>What you will do now is use this code for all possible values of the ADC prescaler as defined in the CTRLC register of ADC. This is done on line 
+            12 of the sketch with the statement ADC_PRESC_DIV16_gc. Simply change DIV16 for any other one as needed (e.g., DIV2, DIV4, etc.). For each ADC 
+            prescaler value, note the value that is output in the Serial Monitor. What do you notice? What does the output fail to give you what it is expected to give?
+          </p>
+
+          <p>With the appropriately modified ADC_SingleConvClass.ino file, enter the various values of the ADC output value from your code for all of the 
+            possible ADC prescaler values. Why do you observe this behavior?
+          </p>
+
+          <h3>CONNECTING AND TESTING H-BRIDGE</h3>
+
+          <video controls>
+            <source src="assets/img/E.mp4"
+                    type="video/mp4">
+          </video>
+
+
+          <h3>CALIBRATING THE MOTORS</h3>
+
+          <h3>INCORPORATING THE PHOTOSENSORS</h3>
+
+          <h3>FINAL THOUGHTS</h3>
+
+        </div>
   
   </section>
   <!-- ======= End Lab 2 Section ======= -->
