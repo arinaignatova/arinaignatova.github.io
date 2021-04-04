@@ -7,6 +7,13 @@ body {
   background: transparent;
 }
 
+figure {
+  width: 600px;
+  height: 421px;
+  padding-top: 15px; 
+  padding-bottom: 15px;
+}
+
 body::before {
   content: "";
   position: fixed;

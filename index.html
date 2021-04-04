@@ -213,34 +213,63 @@
             minimum allowable ADC prescaler that must be used for the CLK_PER signal corresponding to the 16 MHz signal of the
             oscillator to be 16. This is equilvalent to CLK_ADC frequency of 1MHz.</p>
 
-          <p>You will now test various ADC prescaler values to give you an idea of how fast the ADC can be operated in reality. With your Arduino 
-            powered off, connect the +3.3V pin (pin # 2) to the A3 pin (that’s the PD0 processor pin, also labeled D17, on the Nano Pinout diagram). 
-            Next, instead of using the analogRead() Arduino pre‐programmed function, download the file 2 ADC_SingleConvClass.ino from Canvas (in the 
-            Lab 2 Module) and open it in the IDE. Note in passing that this file contains the (slightly modified) code from Example 9‐1 in the 
-            “Getting Started with ADC” document on Canvas. Read through the code, understand what the code is doing, and if you compare it to 
-            section 29.3.1 in the Datasheet, that is what it is doing. Next, upload the code to your Nano. It will output the analog‐to‐digitally 
-            converted value of the +3.3V pin connected to PD0 on the Serial Monitor using a value of 16 for the ADC prescaler. Is the ADC result as expected?</p>
-
-          <p>What you will do now is use this code for all possible values of the ADC prescaler as defined in the CTRLC register of ADC. This is done on line 
-            12 of the sketch with the statement ADC_PRESC_DIV16_gc. Simply change DIV16 for any other one as needed (e.g., DIV2, DIV4, etc.). For each ADC 
-            prescaler value, note the value that is output in the Serial Monitor. What do you notice? What does the output fail to give you what it is expected to give?
-          </p>
-
-          <p>With the appropriately modified ADC_SingleConvClass.ino file, enter the various values of the ADC output value from your code for all of the 
-            possible ADC prescaler values. Why do you observe this behavior?
-          </p>
+          <p>To get an idea of how fast the ADC can be operated in reality, I then tested various ADC prescaler values with the +3.3V pin 
+            acting as the input. Using the provided file ADC_SingleConvClass.ino, I read the output of the analog‐to‐digital
+            conversion of the +3.3V pin first for 16 as the prescaler, and then for the rest of the possible values.</p>
 
           <h3>CONNECTING AND TESTING H-BRIDGE</h3>
+            <div class="row">
+            <p>For the robot to function as desired, the motors within its wheels must be controlled by the Arduino. H-Bridge will be used 
+              to control the motors’ speed and direction of rotation which will in turn make it easy to program the robot to go in a straight 
+              line, turn right or left or in place, or go backwards. With no sources of power connected to the breadboard, I made the 
+              connections between the h‐bridge, motors and the Arduino as shown below.</p>
 
-          <video controls>
-            <source src="assets/img/E.mp4"
+            <p>
+              <img src="assets/img/circuit.jpg" class="img-fluid" alt="" width="600" height="848.5" style="border-radius: 20px; padding-top: 15px; padding-bottom: 15px;"/>
+            </p>
+
+            <p>To program the motors using the Arduino IDE, I created several new variables: enA (PWM enable signal for motor A), inA1 and inA2 
+              (direction control pins for motor A), motorA_SpeedSlwForward (speed for motor A), and another four analogous pins for motor B. I 
+              then connected the +4.5 V wire from the AA battery pack to the appropriate pin of the L293D, and the ground wire of the batteries 
+              to the common ground. To protect the circuit I also installed two capacitors between the +4.5 V and +5 V sources and the h-bridge, 
+              as well as six resistors between the output pins of the Nano and the h-bridge. Fully programmed and functioning motors 
+              can be seen below. </p>
+
+            <video height="600" style="border-radius: 20px; padding-top: 15px; padding-bottom: 30px;" controls>
+              <source src="assets/img/E.mp4" 
                     type="video/mp4">
-          </video>
+            </video>
 
+          </div>
 
           <h3>CALIBRATING THE MOTORS</h3>
+          <div class="row">
+            <p>Even though the motors are programmed the same, the speeds of the wheels may still not be perfectly identical. To calibrate the 
+              wheels, I played with different speeds for motors A and B (motorA_SpeedSlwForward and motorB_SpeedSlwForward) to find the values 
+              for which the robot would move in a straight line. I repeated the above procedure for medium speed by creating variables 
+              motorA_SpeedMedForward and motorB_SpeedMedForward and finding the appropriate values for those variables. Robot moving in a 
+              straight line with slow speed can be seen below.</p>
+
+            <video height="750" style="padding-bottom: 27px; height: 750px; width: 464px;" controls>
+                <source src="assets/img/G1.mp4"
+                      type="video/mp4">
+            </video>
+
+            <p>Robot moving in a straight line with medium speed can be seen below.</p>
+
+            <video height="750" style="padding-bottom: 30px; height: 750px; width: 464px;" controls>
+              <source src="assets/img/G2.mp4"
+                    type="video/mp4">
+            </video>
+
+          </div>
 
           <h3>INCORPORATING THE PHOTOSENSORS</h3>
+
+          <video height="750" style="padding-bottom: 30px; height: 750px; width: 422px;" controls>
+            <source src="assets/img/I.1.mp4"
+                  type="video/mp4">
+          </video>
 
           <h3>FINAL THOUGHTS</h3>
 
