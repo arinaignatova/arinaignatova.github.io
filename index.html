@@ -265,13 +265,39 @@
           </div>
 
           <h3>INCORPORATING THE PHOTOSENSORS</h3>
+          <div class="row">
+            <p>Once the wheels have been calibrated, the robot can now be programmed to perform the required tasks outlined in the objectives section
+               above. To do so, I created two new variables: an int expected_environment which was set to 550 and a float NM_threshold which was set 
+               to 0.6. The main loop of the code consists of continuous reading of sensor values and calculation of parameters that would determine 
+               the actions the robot should take next. The rest of the code is split into five if-statements, one for each possible scenario.</p>
 
-          <video height="750" style="padding-bottom: 30px; height: 750px; width: 422px;" controls>
-            <source src="assets/img/I.1.mp4"
-                  type="video/mp4">
-          </video>
+            <p>The first statement checks whether the readings for both the left and right photosensors are lower than the expected_environment variable. 
+              This means that the lighting conditions are too dark and uniform for the robot to find a light source. In this case, the robot turns 
+              around in place with the onboard LED flashing.</p>
+
+            <p>The next if-statement checks whether either one of the sensors is picking up light that is greater than the expected_environment threshold 
+              and whether the normalized left reading is greater than NM_threshold. This means that the robot should turn left to follow the light until 
+              the normalized left and right values are roughly equalized. The next if-statement is almost identical to the previous one except for this 
+              statement checks whether the normalized right reading is greater than NM_threshold. In this case, the robot would turn right to follow 
+              the light.</p>
+
+            <p>The next if-statement would be followed whenever the left and right sensor readings are roughly equal but the photosensors are still 
+              picking up light that’s greater than the expected_environment value. This means that a bright light source still exists but the robot 
+              is facing it straight on. In this case, the robot goes straight towards the light until it is turned off. The fifth if-statement was 
+              just created as good programming practice: in case none of the conditions were somehow satisfied, both of the wheels would shut off 
+              and the robot would stop moving completely. Fully programmed robot can be seen below.</p>
+
+            <video height="750" style="padding-bottom: 30px; height: 750px; width: 422px;" controls>
+              <source src="assets/img/I.1.mp4"
+                    type="video/mp4">
+            </video>
+          </div>
 
           <h3>FINAL THOUGHTS</h3>
+          <div class="row">
+            <p>Overall, Lab 2 went smoothly with not a lot of challenges along the way. Getting the circuitry correctly was the most time consuming 
+              and difficult part, however, after I finished and rechecked the circuit many times, programming the robot wasn’t very hard. </p>
+          </div>
 
         </div>
   
