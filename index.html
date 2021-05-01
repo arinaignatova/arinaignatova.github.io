@@ -441,43 +441,47 @@
         <h3>TESTING THE LOW PASS AND HIGH PASS CIRCUITS</h3>
         <div class="row">
 
-          <p>Now you will test your passive low pass and high pass filters that you simulated in Section 1 with components from your kit. Firstly, build your low pass filter on the breadboard (be careful with the components: you will need them for the rest of the course), and connect the output of your microphone amplifier circuit into the input of your low pass filter
-            We are now interested in experimentally characterizing your filter’s frequency response.
-            the system’s frequency response 𝐻(Ω) is the ratio between your system’s output signal’s spectrum 𝑌(Ω) divided by your system’s input signal’s spectrum 𝑋(Ω)
-            Measure the signal coming out of the low pass filter
-            Measure the signal that is fed into your low pass filter
-            Calculate H. Repeat the process for the high pass filter.
-            Upload the graph that shows the superposition of the smoothed 
-            𝑯𝑳𝒐𝒘 𝒑𝒂𝒔𝒔(𝛀)𝒆𝒙𝒑𝒆𝒓𝒊𝒎𝒆𝒏𝒕 and 𝐇𝐋𝐨𝐰𝐏𝐚𝐬𝐬(𝛀)𝐭𝐡𝐞𝐨𝐫𝐲 obtained from your experimental 
-            measurements and simulations, respectively. </p>
+          <p>To test the passive low pass and high pass filters simulated in Section 1, I built the low-pass filter on the breadboard using the 
+            provided components. The output of the amplified microphone circuit was connected to the input of the low pass filter so 
+            that theoretically only certain sound frequncies would be able to pass through. To obtain the system’s frequency response 𝐻(Ω), 
+            I measured the signal coming out of the low pass filter 𝑌(Ω) and divided it by the system’s measured input signal’s spectrum 𝑋(Ω).
+            The process was repeated to obtain the frequency response of the high-pass filter.</p>
 
             <p>
               <img src="assets/img/low-pass-measured.jpg" class="img-fluid" alt="" width="600" height="848.5" style="border-radius: 20px; padding-top: 15px; padding-bottom: 15px;"/>
             </p>
 
-            <p>Comment</p>
+            <p>As can be seen from both plots, the measured frequency responses were very far from the theoretical values. This can most likely 
+              be attributed to the poor quality of circuit components or to noise from the jump wires.</p>
 
             <p>
               <img src="assets/img/high-pass-measured.jpg" class="img-fluid" alt="" width="600" height="848.5" style="border-radius: 20px; padding-top: 15px; padding-bottom: 15px;"/>
             </p>
 
-            <p>Comment</p>
-
         </div>
+
+        <p><br/></p>
 
         <h3>BUILIDNG THE BANDPASS FILTER</h3>
         <div class="row">
-          <p>The point of filtering the audio signal that the Arduino picks up is to eliminate noise and interference. The reason why you are working on audio signals in the course is to eventually program your robot so that it will respond to audio signals. In order to eliminate undesirable audio noise and interference (e.g., from harmonics), you need to filter the audio signal to attenuate/eliminate noise and interference in our audio range of interest which here is set to be approximately between 500 and 900 Hz
 
-          </p>
+          <p>The point of filtering the audio signal picked up by the Arduino is to eliminate noise and interference. Eventually the robot will 
+            be programmed to only respond to specific audio signals which means that a filter is needed to eliminate undesirable audio noise
+            outside of our audio range of interest. Following a similar procedure to the one described in the previous section, I built a bandpass
+            filter and obtained the plot of its frequency response by first measuring the output of the filter 𝑌(Ω) and then dividing it by the
+            input 𝑋(Ω).</p>
 
           <p>
             <img src="assets/img/band-pass-measured.jpg" class="img-fluid" alt="" width="600" height="848.5" style="border-radius: 20px; padding-top: 15px; padding-bottom: 15px;"/>
           </p>
 
-          <p>Comment</p>
+          <p>The frequency response of the bandpass filter is still not very close to the theoretical response, however, the general shape was
+            similar to what would be needed to filter out noise. The plot clearly shows that for some range of frequencies (approximately 700 to 1200 Hz), 
+            the signal was able to pass through, while for all other frequencies it was attenuated.</p>
 
         </div>
+
+        <p><br/></p>
        
         <h3>FFT ON ARDUINO</h3>
         <div class="row">
