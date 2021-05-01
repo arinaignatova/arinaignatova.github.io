@@ -79,6 +79,7 @@
               </ul>
             </div>
           </div>
+
           <h3>MATERIALS</h3>
           <div class="row">
             <div class="col-lg-6">
@@ -175,6 +176,7 @@
             </ul>
           </div>
         </div>
+
         <h3>MATERIALS</h3>
         <div class="row">
           <div class="col-lg-6">
@@ -311,9 +313,206 @@
 
     <div class="section-title">
       <h2>Lab 3</h2>
-      <p>Coming Soon...</p>
+      <p>Filtering and FFT</p>
     </div>
-  </div>
+
+    <div class="row">
+      <div class="col-lg-8 pt-4 pt-lg-0 content" data-aos="fade-left">
+        <h3>OBJECTIVES</h3>
+        <div class="row">
+          <div class="col-lg-6">
+            <ul>
+              <li><i class="bi bi-chevron-right"></i> <p>Implement and test passive and active filters using available hardware, a computer, and MATLAB</p></li>
+              <li><i class="bi bi-chevron-right"></i> <p>Compare the filtered signals to what is theoretically predicted</p></li>
+              <li><i class="bi bi-chevron-right"></i> <p>Implement and test a bandpass filter, again comaring it to theoretical results</p></li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>MATERIALS</h3>
+        <div class="row">
+          <div class="col-lg-6">
+            <ul>
+              <li><i class="bi bi-chevron-right"></i> <p>Capacitors and resistors</p></li>
+              <li><i class="bi bi-chevron-right"></i> <p>Jumper wires</p></li>
+              <li><i class="bi bi-chevron-right"></i> <p>Breadboard</p></li>
+              <li><i class="bi bi-chevron-right"></i> <p>Op-Amps</p></li>
+              <li><i class="bi bi-chevron-right"></i> <p>A computer with MATLAB and speakers</p></li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>LTSpice BASICS AND SIMULATING FILTERS</h3>
+        <div class="row">
+          <p>In this lab LTSpice will be used to simulate the behavior of filters that will later be implemented in the robot.
+            After familiarizing myself with the software, I simulated a low pass filter with a resistor and a capacitor, and graphed 
+            the frequency response, zooming-in around the cutoff frequency. Then, switching the components around but keeping the 
+            same R and C values I simulated a high pass filter. Frequency responses of both filters can be seen below.</p>
+
+          <p>
+            <img src="assets/img/low-pass.png" class="img-fluid" alt="" width="800" height="848.5" style="border-radius: 20px; padding-top: 15px; padding-bottom: 15px;"/>
+          </p>
+          <p>
+            <img src="assets/img/high-pass.png" class="img-fluid" alt="" width="800" height="848.5" style="border-radius: 20px; padding-top: 15px; padding-bottom: 15px;"/>
+          </p>
+          
+        </div>
+
+        <p><br/></p>
+
+        <h3>BUILDING THE MICROPHONE CIRCUIT</h3>
+        <div class="row">
+
+          <p>In labs 3 and 4, a microphone will be used to collect the sound and Arduino will be used to process this sound on the robot. 
+            To build the microphone circuit, I followed the schematic shown in Figure 1.</p>
+          <p>
+            <img src="assets/img/fig1.jpg" class="img-fluid" alt="" width="600" height="848.5" style="border-radius: 20px; padding-top: 15px; padding-bottom: 15px;"/>
+          </p>
+        
+          <p>A basic circuit showing the microphone, a resistor and a capacitor connected to one another can be seen below.</p>
+
+          <p>
+            <img src="assets/img/circuit1.jpg" class="img-fluid" alt="" width="600" height="848.5" style="border-radius: 20px; padding-top: 15px; padding-bottom: 15px;"/>
+          </p>
+          <p>
+            <img src="assets/img/circuit2.jpg" class="img-fluid" alt="" width="600" height="848.5" style="border-radius: 20px; padding-top: 15px; padding-bottom: 15px;"/>
+          </p>
+
+        </div>
+
+        <p><br/></p>
+
+        <h3>CHARACTERIZING THE CIRCUIT</h3>
+        <div class="row">
+
+          <p>To test and compare the physical implementation of the low pass, high pass, and bandpass filters simulated in Section 1,
+            code that will be used by the Nano and code that will be used by MATLAB need to be written. The goal for later labs is for 
+            the robot to be able to pick up sounds and discern specific frequencies so that it can act according to those frequencies.
+            I wrote Arduino code that allowed the Nano to collect sound from the microphone circuit and print it to the serial 
+            port so that it can be read by MATLAB for analysis. A sketch freeRunADC_MATLAB.ino was created to manually code the ADC 
+            that it is in Free Running mode. The code also converts read ADC values to a signed 16 bit number, having positive and 
+            negative values. This is done by shifting the read values down and scaling them such that a 16 bit number is obtained.</p>
+
+        </div>
+
+        <p><br/></p>
+
+        <h3>CODING IN MATLAB TO FETCH DATA FROM THE ARDUINO</h3>
+        <div class="row">
+
+          <p>To now visualze the sound that had been picked up by the microphone and passed through ADC conversion, MATLAB will be used.
+            The code has three major functions: to play a sound of increasing frequency over the speakers, to collect the sound with the Nano 
+            and perform the ADC conversion, and to perform Fourier analysis in MATLAB on the data so that it can be analyzed. 
+            To calculate the FFT and plot the spectrtum of the acquired signal, an FFT library was used. After playing a sound of frequency
+            around 500 Hz for a few seconds, the following plot was obtained.  </p>
+
+          <p>
+            <img src="assets/img/plots.jpg" class="img-fluid" alt="" width="600" height="848.5" style="border-radius: 20px; padding-top: 15px; padding-bottom: 15px;"/>
+          </p>
+
+        </div>
+
+        <p><br/></p>
+
+        <h3>IMPROVING THE MICROPHONE CIRCUIT</h3>
+        <div class="row">
+
+          <p>As can be observed above, the spectrum’s value at the frequency of ~500 Hz is relatively weak since the microphone is not 
+            very good at picking up sound. Using an op-amp and Figure 3 as a reference, I built a circuit to amplify the sound that was 
+            picked up by the microphone.</p>
+
+          <p>
+            <img src="assets/img/fig3.jpg" class="img-fluid" alt="" width="600" height="848.5" style="border-radius: 20px; padding-top: 15px; padding-bottom: 15px;"/>
+          </p>
+          <p>
+            <img src="assets/img/circuit3.jpg" class="img-fluid" alt="" width="600" height="848.5" style="border-radius: 20px; padding-top: 15px; padding-bottom: 15px;"/>
+          </p>
+
+          <p>With the circuit implemented, I executed the MATLAB code to get the plot of the frequency spectrum. A much larger peak near 
+            the ~500Hz signal frequency can be seen due to the amplification.</p>
+          <p>
+            <img src="assets/img/amplified.jpg" class="img-fluid" alt="" width="600" height="848.5" style="border-radius: 20px; padding-top: 15px; padding-bottom: 15px;"/>
+          </p>
+
+        </div>
+
+        <p><br/></p>
+
+        <h3>TESTING THE LOW PASS AND HIGH PASS CIRCUITS</h3>
+        <div class="row">
+
+          <p>Now you will test your passive low pass and high pass filters that you simulated in Section 1 with components from your kit. Firstly, build your low pass filter on the breadboard (be careful with the components: you will need them for the rest of the course), and connect the output of your microphone amplifier circuit into the input of your low pass filter
+            We are now interested in experimentally characterizing your filter’s frequency response.
+            the system’s frequency response 𝐻(Ω) is the ratio between your system’s output signal’s spectrum 𝑌(Ω) divided by your system’s input signal’s spectrum 𝑋(Ω)
+            Measure the signal coming out of the low pass filter
+            Measure the signal that is fed into your low pass filter
+            Calculate H. Repeat the process for the high pass filter.
+            Upload the graph that shows the superposition of the smoothed 
+            𝑯𝑳𝒐𝒘 𝒑𝒂𝒔𝒔(𝛀)𝒆𝒙𝒑𝒆𝒓𝒊𝒎𝒆𝒏𝒕 and 𝐇𝐋𝐨𝐰𝐏𝐚𝐬𝐬(𝛀)𝐭𝐡𝐞𝐨𝐫𝐲 obtained from your experimental 
+            measurements and simulations, respectively. </p>
+
+            <p>
+              <img src="assets/img/low-pass-measured.jpg" class="img-fluid" alt="" width="600" height="848.5" style="border-radius: 20px; padding-top: 15px; padding-bottom: 15px;"/>
+            </p>
+
+            <p>Comment</p>
+
+            <p>
+              <img src="assets/img/high-pass-measured.jpg" class="img-fluid" alt="" width="600" height="848.5" style="border-radius: 20px; padding-top: 15px; padding-bottom: 15px;"/>
+            </p>
+
+            <p>Comment</p>
+
+        </div>
+
+        <h3>BUILIDNG THE BANDPASS FILTER</h3>
+        <div class="row">
+          <p>The point of filtering the audio signal that the Arduino picks up is to eliminate noise and interference. The reason why you are working on audio signals in the course is to eventually program your robot so that it will respond to audio signals. In order to eliminate undesirable audio noise and interference (e.g., from harmonics), you need to filter the audio signal to attenuate/eliminate noise and interference in our audio range of interest which here is set to be approximately between 500 and 900 Hz
+
+          </p>
+
+          <p>
+            <img src="assets/img/band-pass-measured.jpg" class="img-fluid" alt="" width="600" height="848.5" style="border-radius: 20px; padding-top: 15px; padding-bottom: 15px;"/>
+          </p>
+
+          <p>Comment</p>
+
+        </div>
+       
+        <h3>FFT ON ARDUINO</h3>
+        <div class="row">
+
+          <p>But for your robot, MATLAB will not be used to perform Fourier analysis: it must be performed on the Arduino. While the Nano’s capabilities are not as powerful as your computer’s, it still can perform Fourier analysis. For this, you will use a library.
+            The Nano will accumulate ADC sampled values (257 such values: you will acquire 257 samples but will ignore the first value and the remaining 256 will be used for calculations
+            The 256 sampled values will be manipulated to convert them from a value between 0 and 1023 that the Nano provides to a signed integer with negative and positive values
+            The rescaled 256 sampled values will be processed by the FFT library on the Nano by invoking a series of commands from the library resulting in an FFT spectrum in 256 bins
+            For testing and characterization purposes, you can print the resulting 128 bins to the Serial Monitor and plot the result to visualize the spectrum obtained by the Nano
+            Then, based on what will be in the spectrum that the Nano will calculate, your robot (in Lab 4) will make a decision as to what to do.
+          </p>
+
+          <p>
+            <img src="assets/img/500.jpg" class="img-fluid" alt="" width="600" height="848.5" style="border-radius: 20px; padding-top: 15px; padding-bottom: 15px;"/>
+          </p>
+
+          <p>
+            <img src="assets/img/700.jpg" class="img-fluid" alt="" width="600" height="848.5" style="border-radius: 20px; padding-top: 15px; padding-bottom: 15px;"/>
+          </p>
+
+          <p>
+            <img src="assets/img/900.jpg" class="img-fluid" alt="" width="600" height="848.5" style="border-radius: 20px; padding-top: 15px; padding-bottom: 15px;"/>
+          </p>
+        </div>
+
+        <h3>FINAL THOUGHTS</h3>
+          <div class="row">
+            <p>TEXT</p>
+          </div>
+
+        </div>
+
+  </section>
+
+  
   
   </section>
   <!-- ======= End Lab 3 Section ======= -->
