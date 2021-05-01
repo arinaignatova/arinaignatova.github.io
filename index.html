@@ -402,9 +402,8 @@
 
           <p>To now visualze the sound that had been picked up by the microphone and passed through ADC conversion, MATLAB will be used.
             The code has three major functions: to play a sound of increasing frequency over the speakers, to collect the sound with the Nano 
-            and perform the ADC conversion, and to perform Fourier analysis in MATLAB on the data so that it can be analyzed. 
-            To calculate the FFT and plot the spectrtum of the acquired signal, an FFT library was used. After playing a sound of frequency
-            around 500 Hz for a few seconds, the following plot was obtained.  </p>
+            and perform the ADC conversion, and to perform Fourier analysis in MATLAB on the data so that it can be analyzed. After playing a 
+            sound of frequency around 500 Hz for a few seconds, the following plot was obtained.  </p>
 
           <p>
             <img src="assets/img/plots.jpg" class="img-fluid" alt="" width="600" height="848.5" style="border-radius: 20px; padding-top: 15px; padding-bottom: 15px;"/>
@@ -483,16 +482,16 @@
 
         <p><br/></p>
        
-        <h3>FFT ON ARDUINO</h3>
+        <h3>FFT ON THE ARDUINO</h3>
         <div class="row">
 
-          <p>But for your robot, MATLAB will not be used to perform Fourier analysis: it must be performed on the Arduino. While the Nano’s capabilities are not as powerful as your computer’s, it still can perform Fourier analysis. For this, you will use a library.
-            The Nano will accumulate ADC sampled values (257 such values: you will acquire 257 samples but will ignore the first value and the remaining 256 will be used for calculations
-            The 256 sampled values will be manipulated to convert them from a value between 0 and 1023 that the Nano provides to a signed integer with negative and positive values
-            The rescaled 256 sampled values will be processed by the FFT library on the Nano by invoking a series of commands from the library resulting in an FFT spectrum in 256 bins
-            For testing and characterization purposes, you can print the resulting 128 bins to the Serial Monitor and plot the result to visualize the spectrum obtained by the Nano
-            Then, based on what will be in the spectrum that the Nano will calculate, your robot (in Lab 4) will make a decision as to what to do.
-          </p>
+          <p>For the final portion of the lab, MATLAB will not be used to perform Fourier analysis. Rather, the FFT will be performed directly on the Arduino.
+             For this, an FFT library will be used. The Nano will accumulate ADC sampled values. These sampled values will then be manipulated to convert them 
+             from a value between 0 and 1023 that the Nano provides to a signed integer with negative and positive values. The rescaled sampled values will be 
+             processed by the FFT library on the Nano resulting in an FFT spectrum. For testing and characterization purposes, the resulting 128 FFT bins will
+             be printed to the Serial Monitor and plot of the result will be used to visualize the spectrum obtained by the Nano. In a later lab, this spectrum 
+             that the Nano will calculate will be used by the robot to make a decision as to what to do. FFT plots for sounds of frequencies 500, 700, and 
+            900 Hz can be seen below.</p>
 
           <p>
             <img src="assets/img/500.jpg" class="img-fluid" alt="" width="600" height="848.5" style="border-radius: 20px; padding-top: 15px; padding-bottom: 15px;"/>
@@ -507,9 +506,14 @@
           </p>
         </div>
 
+        <p><br/></p>
+
         <h3>FINAL THOUGHTS</h3>
           <div class="row">
-            <p>TEXT</p>
+            <p>Overall, the lab went well with the most frustrating part being the discrepancies between the measured and the predicted frequency responses
+              of the high-pass and low-pass filters. Because of this, only the amplified (and not filtered) signal was used to perform the FFT in the last 
+              section of the lab. Despite this, the plots obtained in the last section clearly show which frequency was present the most in a signal, which 
+              should be enough for the robot to later be able to make a decision.</p>
           </div>
 
         </div>
