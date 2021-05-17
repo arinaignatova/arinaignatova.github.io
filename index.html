@@ -532,9 +532,46 @@
 
     <div class="section-title">
       <h2>Lab 4</h2>
-      <p>Coming Soon...</p>
+      <p>Ultrasonic Sensors and Putting Everything Together</p>
     </div>
-  </div>
+
+    <div class="row">
+      <div class="col-lg-8 pt-4 pt-lg-0 content" data-aos="fade-left">
+        <h3>OBJECTIVES</h3>
+        <div class="row">
+          <div class="col-lg-6">
+            <ul>
+              <li><i class="bi bi-chevron-right"></i> <p>Include an ultrasonic sensor (US) for ranging and obstacle sensing</p></li>
+              <li><i class="bi bi-chevron-right"></i> <p>Combine everything done so far</p></li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>PLACEMENT OF ULTRASONIC SENSOR</h3>
+        <div class="row">
+          <p>In order for the robot to be able to detect and respond to obstacles, I first mounted the US onto the nose of the robot. 
+            I also slightly pushed the breadboard towards the back of the robot to make sure that the final design was not too front 
+            heavy.</p>
+
+          <p>I then coded the Arduino so that it was able to use the US and interpret the results. I used two digital pins, one for 
+            the Trigger and one for the Echo, as well as the built in command pulsein(). I then converted the results into a distance 
+            to an obstacle in centimeters.</p>
+
+          <p>To characterize your US, I placed a hard-surfaced obstacle at various distances from the robot and took note of the 
+            measured distances. A plot of measured distances as a function of the actual distance can be seen below.</p>
+
+          <p>
+            <img src="assets/img/Q1.png" class="img-fluid" alt="" width="600" height="848.5" style="border-radius: 20px; padding-top: 15px; padding-bottom: 15px;"/>
+          </p>
+
+          <p>The final demo for this section, in which the robot detects two obstacles can be seen below.</p>
+
+          <video style="height: 500px; width: 1000px;" controls>
+            <source src="assets/img/IMG_7362.mp4"
+                  type="video/mp4">
+          </video>
+
+        </div>
   
   </section>
   <!-- ======= End Lab 4 Section ======= -->
